@@ -4,6 +4,20 @@
 
 这是一个以中文编写的 Agent Skill，适用于从零构建应用，也适用于接手已有项目、开发新功能和维护迭代。它组织整个开发过程中的目标、分工、上下文和交接，让每个阶段都服务于可用的应用成果。快速变更和审核收敛是其中控制协作成本的机制。
 
+## 需求与方案增强分支
+
+本分支为 `codex/discovery-planning`，在 [main 版本](https://github.com/lulu233camellia/multi-agent-dev/tree/main) 的协作流程上，补充可执行的需求挖掘、产品方案和技术方案方法。[查看与 main 的差异](https://github.com/lulu233camellia/multi-agent-dev/compare/main...codex/discovery-planning)。
+
+增强版按当前缺口选择方法：
+
+| 缺口 | 具体方法 | 输出 |
+| --- | --- | --- |
+| 需求还只是一个想法 | [需求挖掘](references/discovery.md)：读取已有材料，追问真实场景，区分事实、假设与待决问题，优先验证影响最大的未知 | 问题定义、场景、证据及关键假设 |
+| 第一版范围或行为不清楚 | [产品方案](references/product-plan.md)：明确核心流程、必要状态、范围与非目标，把需求对应到验收条件 | 足够支持开发的简短产品方案 |
+| 技术路线或模块协作缺少约定 | [技术方案](references/technical-plan.md)：调查现有实现，决定数据、接口与所有权，比较实际可选方案并验证关键风险 | 技术决定、模块约定及实现顺序 |
+
+已有材料足够时直接复用；清晰的小改动仍走单 Agent 快速路径。三份参考是按需读取的方法，不要求新增三个 Agent、三份报告或三轮方案批准。流程内置于本仓库，不需要先安装其他 Skill。
+
 ## 覆盖的开发流程
 
 | 阶段 | 推进内容 | 可交接的结果 |
@@ -46,17 +60,13 @@
 
 ## 安装
 
-使用 Skills CLI：
+安装这个增强分支时，显式指定分支。以下示例仅适用于目标目录尚不存在时：
 
 ```bash
-npx skills add lulu233camellia/multi-agent-dev --skill multi-agent-dev -g -a codex
+git clone --branch codex/discovery-planning --single-branch https://github.com/lulu233camellia/multi-agent-dev.git ~/.codex/skills/multi-agent-dev
 ```
 
-也可以将完整仓库克隆到自己的 Skill 目录。以下示例仅适用于目标目录尚不存在时：
-
-```bash
-git clone https://github.com/lulu233camellia/multi-agent-dev.git ~/.codex/skills/multi-agent-dev
-```
+已有安装时，先在普通工作目录查看本分支并选择是否切换，不同时加载两份同名 Skill。不指定分支的默认安装仍获取 main；本分支的创建不会切换已有安装。
 
 其他 Agent Skills 兼容工具可以使用其自己的 Skill 目录。实际代理分工能力取决于宿主提供的工具；没有独立代理能力时，不能声称已完成独立验收。安装后若未被发现，重新打开会话或重载宿主。
 
@@ -64,6 +74,10 @@ git clone https://github.com/lulu233camellia/multi-agent-dev.git ~/.codex/skills
 
 ```text
 使用 $multi-agent-dev 从零开发一个预约管理应用，推进需求、方案、实现和验收，交付可在本地运行的 MVP。
+```
+
+```text
+我想做一个应用，但还没确定第一版。使用 $multi-agent-dev 先挖掘关键需求，整理产品和技术方案；这一轮只做方案。
 ```
 
 ```text
@@ -82,6 +96,9 @@ git clone https://github.com/lulu233camellia/multi-agent-dev.git ~/.codex/skills
 multi-agent-dev/
 ├── SKILL.md                       # 全流程入口、职责与验证规则
 ├── agents/openai.yaml             # Codex 界面元数据
+├── references/discovery.md        # 需求、证据与关键假设
+├── references/product-plan.md     # 产品流程、范围与验收条件
+├── references/technical-plan.md   # 技术决策、接口与实现交接
 ├── references/collaboration.md    # 团队与任务交接
 ├── references/review-state.md     # 问题及证据状态模板
 ├── references/sources.md          # 设计来源与适配边界
@@ -91,13 +108,15 @@ multi-agent-dev/
 
 ## 验证与限制
 
-初版协作与审核规则完成过六个合成流程场景的一轮独立推演，覆盖小改动、重复问题、预算追加、过期证据、重叠写入和真实验收缺口。推演发现的一处预算授权歧义已修正。本次全流程说明与入口调整通过了 Skill 结构、相对引用和元数据检查。
+初版协作与审核规则完成过六个合成流程场景的一轮独立推演，覆盖小改动、重复问题、预算追加、过期证据、重叠写入和真实验收缺口。推演发现的一处预算授权歧义已修正。该历史推演不覆盖本分支新增的需求与方案流程。
+
+本分支通过了 Skill 结构、相对引用和元数据检查；原有快速变更及审核收敛规则保留。新增方法尚未完成真实项目试用或独立行为评测。
 
 这些检查尚未验证按本 Skill 从零完成一个应用的实际效果，也不是项目速度或缺陷率基准。应结合真实项目的交付结果、审核轮数、等待时间和遗漏缺陷评估效果。
 
 ## 来源
 
-全流程协作方式基于作者的应用开发实践与使用需求；其中审核环节参考 [How the Claude Code team does code review](https://claude.dev/blog/solving-code-review-at-anthropic/) 的收敛思路。具体适配见 [sources.md](references/sources.md)。这是独立社区项目，与 Anthropic、OpenAI 没有官方关联。
+全流程协作方式基于作者的应用开发实践与使用需求；需求与方案方法参考 phuryn/pm-skills、Superpowers、senior-architect、BMAD 和 gstack 的相关设计，审核环节参考 [How the Claude Code team does code review](https://claude.dev/blog/solving-code-review-at-anthropic/) 的收敛思路。具体来源、核实版本及适配边界见 [sources.md](references/sources.md)。这是独立社区项目，与上述项目及其作者、Anthropic、OpenAI 没有官方关联。
 
 ## License
 

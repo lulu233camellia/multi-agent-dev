@@ -1,4 +1,4 @@
 interface:
   display_name: "多 Agent 全流程应用开发"
-  short_description: "从需求与方案推进到应用实现、验收、交付和迭代，按风险组织多 Agent 协作"
-  default_prompt: "请用 $multi-agent-dev 从项目当前阶段推进应用开发，衔接需求、方案、实现、验收与交付，按任务风险选择必要的协作和检查。"
+  short_description: "按需补齐需求证据、产品流程与技术约定，再组织应用开发、验收、交付和迭代"
+  default_prompt: "请用 $multi-agent-dev 推进应用开发，先复用现有材料，按缺口澄清需求、产品行为和技术约定，再完成已授权的实现、验收与交付。"
