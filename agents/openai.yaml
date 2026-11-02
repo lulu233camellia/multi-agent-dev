@@ -1,0 +1,4 @@
+interface:
+  display_name: "多 Agent 协作开发"
+  short_description: "按风险组织规划、开发与独立验收，通过增量复审和问题去重减少重复审核"
+  default_prompt: "请用 $multi-agent-dev 推进这个项目，先按风险选择最小协作方式，再完成实现、必要验证和有停止条件的审核。"
